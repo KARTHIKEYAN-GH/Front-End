@@ -1,0 +1,55 @@
+<h2>Welcome to Dashboard</h2>
+
+<p><strong>Access token stored in browser:</strong></p>
+<pre>{{ token }}</pre>
+
+<hr />
+<div>
+  <h2>Networks List</h2>
+
+  <button (click)="logout()">Logout</button>
+
+  <div *ngIf="networks.length === 0">No networks found.</div>
+
+  <ul *ngIf="networks.length > 0">
+    <li *ngFor="let network of networks">
+      <strong>ID:</strong> {{ network.id }} <br />
+      <strong>Name:</strong> {{ network.name }} <br />
+      <strong>Description:</strong> {{ network.description }} <br />
+      <!-- Add other network properties as per your backend response -->
+    </li>
+  </ul>
+</div>
+
+<h2>Welcome to Dashboard</h2>
+
+<p><strong>Access token stored in browser:</strong></p>
+<pre>{{ token }}</pre>
+
+<hr />
+
+<!-- Input form -->
+<!-- <div>
+  <label>Domain ID:</label>
+  <input type="text" [(ngModel)]="domainId" placeholder="Enter domainId" />
+
+  <label>User ID:</label>
+  <input type="text" [(ngModel)]="userId" placeholder="Enter userId" />
+
+  <button (click)="getUserKey()">Get User Keys</button>
+</div> -->
+<!-- <input type="text" [(ngModel)]="domainId" placeholder="Enter domainId" />
+<input type="text" [(ngModel)]="userId" placeholder="Enter userId" />
+
+<hr /> -->
+
+<!-- Show keys -->
+<div *ngIf="apiKey && secretKey">
+  <h3>User Keys:</h3>
+  <p><strong>API Key:</strong> {{ apiKey }}</p>
+  <p><strong>Secret Key:</strong> {{ secretKey }}</p>
+</div>
+
+<hr />
+
+<button (click)="logout()">Logout</button>
