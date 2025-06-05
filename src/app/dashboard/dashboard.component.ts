@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
@@ -10,28 +10,23 @@ import { Router, RouterModule } from '@angular/router';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   networks: any[] = [];
-  token: string | null = localStorage.getItem('accessToken');
+  apiKey: string = '';
+  secretKey: string = '';
+  showKeys: boolean = false;
+  token: string | null = null;
 
-  constructor(private http: HttpClient, private router: Router) {
+  domainId: string = '22612de7-0dfa-11ef-baa2-faebddc39855';
+  userId: string = '7090e9d8-0dfa-11ef-baa2-faebddc39855';
+
+  constructor(private http: HttpClient, private router: Router) {}
+
+  ngOnInit(): void {
+    this.token = localStorage.getItem('accessToken');
     this.loadNetworks();
   }
 
-  // loadNetworks() {
-  //   this.http.get<any[]>('http://localhost:9090/api/cloudstack/listNetworks', {
-  //     headers: { Authorization: `Bearer ${this.token}` }
-  //   }).subscribe({
-  //     next: (data) => {
-  //       this.networks = data;
-  //     },
-  //     error: () => {
-  //       alert('Failed to load networks.');
-  //     }
-  //   });
-  // }
-
-  
   loadNetworks() {
     if (this.token) {
       const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
@@ -46,33 +41,50 @@ export class DashboardComponent {
         });
     } else {
       alert('No access token found.');
+      this.router.navigate(['/login']);
     }
   }
 
-  getUserKey(domainId: string, id: string) {
+  getUserKey() {
+    if (!this.token) {
+      alert('No token found. Please login again.');
+      return;
+    }
+
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    const params = new HttpParams()
-      .set('domainId', "22612de7-0dfa-11ef-baa2-faebddc39855")
-      .set('id', "7090e9d8-0dfa-11ef-baa2-faebddc39855");
-  
-    this.http.get<any[]>('http://localhost:9090/api/cloudstack/getUserKeys', { headers, params })
+
+    const body = {
+      domainId: this.domainId,
+      id: this.userId
+    };
+
+    this.http.post<any>('http://localhost:9090/api/cloudstack/getUserKeys', body, { headers })
       .subscribe({
         next: (data) => {
-          this.networks = data;
+          const userKeys = data.getuserkeysresponse?.userkeys;
+          if (userKeys) {
+            this.apiKey = userKeys.apikey;
+            this.secretKey = userKeys.secretkey;
+            this.showKeys = true;
+            console.log('API Key:', this.apiKey);
+            console.log('Secret Key:', this.secretKey);
+
+          } else {
+            alert('User keys not found in response.');
+          }
         },
         error: () => {
-          alert('Failed to load networks.');
+          alert('Failed to load user keys.');
         }
       });
   }
-  
 
   logout() {
     const token = localStorage.getItem('accessToken');
     this.http.get<any>('http://localhost:9090/api/cloudstack/logout', {
       headers: {
         Authorization: `Bearer ${token}`
-      } 
+      }
     }).subscribe({
       next: () => {
         localStorage.removeItem('accessToken');
@@ -86,5 +98,4 @@ export class DashboardComponent {
       }
     });
   }
-  
 }
