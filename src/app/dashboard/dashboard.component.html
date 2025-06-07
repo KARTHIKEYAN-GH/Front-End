@@ -1,6 +1,6 @@
-<h2><strong>Dashboard</strong></h2>
+<h1><strong>Welcome to Dashboard</strong></h1>
 
-<button (click)="getUserKey()">Get Key</button>
+<button (click)="getUserKey()" id="getKey">Get Key</button>
 
 <!-- Show keys only when available -->
 <div *ngIf="showKeys">
@@ -9,25 +9,16 @@
   <p><strong>Secret Key:</strong> {{ secretKey }}</p>
 </div>
 
-<hr />
 
-<h2>Networks</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>ID</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let net of networks">
-      <td>{{ net.name }}</td>
-      <td>{{ net.type }}</td>
-      <td>{{ net.id }}</td>
-    </tr>
-  </tbody>
-</table>
+<!-- New: Random Number Section -->
+<h3>Random Number</h3>
+<button (click)="random()" id="random">Get Random Number</button>
+<div *ngIf="randomNumber !== null">
+  <p><strong>Generated Number:</strong> {{ randomNumber }}</p>
+</div>
 
-<br />
-<button (click)="logout()">Logout</button>
+
+<button (click)="logout()" id="logoutbutton">Logout</button>
+
+
+

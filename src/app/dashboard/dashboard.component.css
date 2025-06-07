@@ -1,0 +1,86 @@
+form {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fafafa;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 24px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    display: block;
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+  }
+  
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  #getKey {
+    width: 40%;
+    padding: 12px 0;
+    background-color: #00b36e;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  #getKey:hover {
+    background-color: #5400b3;
+  }
+
+  #random {
+    width: 40%;
+    padding: 12px 0;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  #random:hover {
+    background-color: #0056b3;
+  }
+
+  #logoutbutton {
+    background-color: #e74c3c;   /* Red */
+    color: white;                /* Text color */
+    border: none;                /* No border */
+    padding: 10px 20px;          /* Spacing */
+    font-size: 16px;             /* Font size */
+    border-radius: 5px;          /* Rounded corners */
+    cursor: pointer;             /* Pointer on hover */
+    margin-top: 15px;            /* Space above */
+    transition: background-color 0.3s ease;
+  }
+  
+  #logoutbutton:hover {
+    background-color: #c0392b;   /* Darker red on hover */
+  }
+  

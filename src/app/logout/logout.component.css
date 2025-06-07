@@ -1,0 +1,16 @@
+#logout {
+    background-color: #e74c3c;   /* Red */
+    color: white;                /* Text color */
+    border: none;                /* No border */
+    padding: 10px 20px;          /* Spacing */
+    font-size: 16px;             /* Font size */
+    border-radius: 5px;          /* Rounded corners */
+    cursor: pointer;             /* Pointer on hover */
+    margin-top: 15px;            /* Space above */
+    transition: background-color 0.3s ease;
+  }
+  
+  #logout:hover {
+    background-color: #c0392b;   /* Darker red on hover */
+  }
+  
