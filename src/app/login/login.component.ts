@@ -30,6 +30,7 @@ export class LoginComponent {
     return encrypted.toString();
   }
 
+
   login() {
     if (!this.username.trim() || !this.password.trim()) {
       this.errorMessage = 'Username and password are required!';
@@ -45,9 +46,15 @@ export class LoginComponent {
 
     this.http.post<any>('http://localhost:9090/api/cloudstack/login', payload).subscribe({
       next: (res) => {
-        localStorage.setItem('accessToken', res.accessToken);
-        localStorage.setItem('refreshToken', res.refreshToken);
+        sessionStorage.setItem('accessToken', res.accessToken);
+        sessionStorage.setItem('refreshToken', res.refreshToken);
         this.router.navigate(['/dashboard']);
+
+        // In LoginComponent after successful login:
+      this.router.navigateByUrl('/dashboard', {
+      state: { payload: payload }
+      });
+
       },
       error: () => alert('Invalid login')
     });

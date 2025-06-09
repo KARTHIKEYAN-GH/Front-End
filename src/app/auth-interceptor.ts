@@ -30,7 +30,7 @@ export const authInterceptor: HttpInterceptorFn = (
     return next(req);
   }
 
-  const accessToken = localStorage.getItem('accessToken');
+  const accessToken = sessionStorage.getItem('accessToken');
   if (accessToken) {
     req = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${accessToken}`)
@@ -40,11 +40,11 @@ export const authInterceptor: HttpInterceptorFn = (
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401) {
-        const refreshToken = localStorage.getItem('refreshToken');
+        const refreshToken = sessionStorage.getItem('refreshToken');
 
-        // If no refresh token or already refreshing, logout immediately
+        // If no refresh token logout immediately
         if (!refreshToken || isRefreshing) {
-          localStorage.clear();
+          sessionStorage.clear();
         alert('Session expired. Please login again.');
           router.navigate(['/login']);
           return throwError(() => error);
@@ -63,15 +63,15 @@ export const authInterceptor: HttpInterceptorFn = (
 
             // If backend says refresh token is expired or invalid, logout
             if (response?.message === 'Token Expired Please login') {
-              localStorage.clear();
-            alert('Session expired. Please login again.');
+              sessionStorage.clear();
+             alert('Session expired. Please login again.');
               router.navigate(['/login']);
               return throwError(() => error);
             }
 
             // Save new tokens
-            localStorage.setItem('accessToken', response.accessToken);
-            localStorage.setItem('refreshToken', response.refreshToken);
+            sessionStorage.setItem('accessToken', response.accessToken);
+            sessionStorage.setItem('refreshToken', response.refreshToken);
 
             // Retry original request with new token
             const retryReq = req.clone({
@@ -83,7 +83,7 @@ export const authInterceptor: HttpInterceptorFn = (
           catchError(refreshError => {
             // Refresh token call failed, logout
             isRefreshing = false;
-            localStorage.clear();
+            sessionStorage.clear();
             alert('Session expired. Please login again.');
             router.navigate(['/login']);
             return throwError(() => refreshError);
